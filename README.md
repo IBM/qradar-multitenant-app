@@ -8,7 +8,7 @@ This repo contains two main folder.
 
 
 # Importing Custom Extensions in Watsonx Assistant
-    <strong> 1.	Log in to your Watsonx Assistant instance. <strong>
+    <strong> 1.	Log in to your Watsonx Assistant instance. </strong>
     2.  Navigate to the Integration section located at the bottom left corner.
 
 ![img](./static/1.png)
