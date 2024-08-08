@@ -12,7 +12,7 @@ This repo contains two main folder.
     
     2.	Navigate to the Integration section located at the bottom left corner.
     
-[img](./static/1.png)
+![img](./static/1.png)
 
 QRadar SDK documentation https://www.ibm.com/support/pages/qradar-whats-new-app-framework-sdk-v200
 
