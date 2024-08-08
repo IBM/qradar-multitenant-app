@@ -2,14 +2,15 @@
 
 The solution involves developing a chat assistant inside QRadar application that provides an administrative interface. This interface will allow administrators to input key elements such as tenants, associated domains, log sources, networks, security profiles, roles, and users. The goal is to streamline the creation of new tenants with a one-click process, ensuring an integrated and efficient approach.
 
-This repo contains two main folder. 
+This repo contains two main folder.
+
     1.	multiTenantQradarApp contains the zip file for Qradar App that we can deploy on the QRadar instance.
     2.	multitenantConf-via-watsonxAssistant which has all the files that has been used in assistant for configuring the complete flow
 
 
 ## Importing Custom Extensions in Watsonx Assistant
-    1.	**Log in to your Watsonx Assistant instance.**
-    2.  Navigate to the Integration section located at the bottom left corner.
+    1. Log in to your Watsonx Assistant instance.**
+    2. Navigate to the Integration section located at the bottom left corner.
 
 ![img](./static/1.png)
 
