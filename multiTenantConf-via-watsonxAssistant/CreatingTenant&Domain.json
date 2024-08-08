@@ -1,0 +1,132 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "IBM Code Engine API",
+    "description": "API for accessing tenant information in IBM Code Engine",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://test2.1hsb7i1iegy9.us-east.codeengine.appdomain.cloud"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Get tenant information",
+        "parameters": [
+          {
+            "name": "tenantName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gsilab"
+            },
+            "description": "Name of the tenant"
+          },
+          {
+            "name": "domainName",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "gsilab"
+            },
+            "description": "Domain name"
+          },
+          {
+            "name": "logSourceGroup",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "100092"
+            },
+            "description": "Log source group"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "tenant"
+            },
+            "description": "Type of request"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "headers": {
+              "Strict-Transport-Security": {
+                "description": "Strict transport security policy",
+                "schema": {
+                  "type": "string",
+                  "example": "max-age=63072000; preload"
+                }
+              },
+              "X-Faas-Actionstatus": {
+                "description": "Action status of the FAAS",
+                "schema": {
+                  "type": "integer",
+                  "example": 200
+                }
+              },
+              "X-Faas-Activation-Id": {
+                "description": "Activation ID of the FAAS",
+                "schema": {
+                  "type": "string",
+                  "example": "74ab6ec9-3e6f-4e21-ac57-21eee4e5d039"
+                }
+              },
+              "X-Faas-Prewarmed": {
+                "description": "Indicates if the FAAS was prewarmed",
+                "schema": {
+                  "type": "boolean",
+                  "example": false
+                }
+              },
+              "X-Faas-Result": {
+                "description": "Result of the FAAS execution",
+                "schema": {
+                  "type": "string",
+                  "example": "success"
+                }
+              },
+              "X-Faas-Run-Ok": {
+                "description": "Run status of the FAAS",
+                "schema": {
+                  "type": "boolean",
+                  "example": false
+                }
+              },
+              "X-Request-Id": {
+                "description": "Request ID",
+                "schema": {
+                  "type": "string",
+                  "example": "0350db99-bc2a-4927-83be-4cd074efbdd8"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "msg": {
+                      "type": "string",
+                      "example": "'Tenant & Domain created successfully'"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {}
+}

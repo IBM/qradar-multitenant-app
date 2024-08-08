@@ -1,0 +1,10 @@
+multiTenantQradarApp/app
+multiTenantQradarApp/container
+multiTenantQradarApp/store
+multiTenantQradarApp/.qradar_app_uuid
+multiTenantQradarApp/manifest.json
+multiTenantQradarApp/qenv.ini
+
+multiTenantConf-via-watsonxAssistant/mtautomation/node_modules
+
+.DS_Store
