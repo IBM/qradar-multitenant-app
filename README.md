@@ -7,8 +7,8 @@ This repo contains two main folder.
     2.	multitenantConf-via-watsonxAssistant which has all the files that has been used in assistant for configuring the complete flow
 
 
-# Importing Custom Extensions in Watsonx Assistant
-    **`1.	Log in to your Watsonx Assistant instance.`**
+## Importing Custom Extensions in Watsonx Assistant
+    **1.	Log in to your Watsonx Assistant instance.**
     2.  Navigate to the Integration section located at the bottom left corner.
 
 ![img](./static/1.png)
@@ -54,7 +54,7 @@ This repo contains two main folder.
 
 ![img](./static/10.png) 
 
-# Importing Action Steps in Watsonx Assistant
+## Importing Action Steps in Watsonx Assistant
     1.	Go to the Action section within Watsonx Assistant.
     2.	Click the Settings button located at the top right corner.
 
@@ -74,7 +74,7 @@ QRadar SDK documentation https://www.ibm.com/support/pages/qradar-whats-new-app-
 
 how to install QRadar SDK https://www.ibm.com/support/pages/qradar-whats-new-app-framework-sdk-v200#i
 
-# To install the app on QRadar using the SDK, follow these simple steps:
+## To install the app on QRadar using the SDK, follow these simple steps:
 
 Step 1: Identify Default Server and User Values (Optional)
     qapp server -q <QRadar_server> -u <QRadar_user>
