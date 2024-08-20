@@ -4,7 +4,7 @@ The solution involves developing a chat assistant inside QRadar application that
 
 This repo contains two main folder.
 
-    1. multiTenantQradarApp contains the zip file for Qradar App that we can deploy on the QRadar instance.
+    1. multiTenantQRadarApp contains the zip file for QRadar App that we can deploy on the QRadar instance.
     2. multitenantConf-via-watsonxAssistant which has all the files that has been used in assistant for configuring the complete flow
 
 
@@ -69,7 +69,7 @@ This repo contains two main folder.
     5. Upload the QRadarMTConf-watonxAssistant-action.json file.
     6. Click "Save" to complete the upload.
     
-After configuring the assistant. Update the script tag in qradar app.
+After configuring the assistant. Update the script tag in QRadar app.
 
 QRadar SDK documentation https://www.ibm.com/support/pages/qradar-whats-new-app-framework-sdk-v200
 

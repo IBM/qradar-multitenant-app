@@ -4,7 +4,7 @@ const https = require('https');
 async function main(params) {
   const headers = {
     'Accept': 'application/json',
-    'SEC': '7468d982-2833-4e21-b937-64fad275796a'
+    'SEC': 'QRADAR_TOKEN'
   };
 
   const type = params.type
