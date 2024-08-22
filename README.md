@@ -83,29 +83,29 @@ Step1: Identify Default Server and User Values (Optional)
 Step2: Package the App
 1. qapp package -p com.mycompany.myapp.zip
 
-Deploy the App to QRadar
-3. qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
+Step3: Deploy the App to QRadar
+1. qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
 
 Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console and <QRadar_user> with the username of a user with the necessary permissions to deploy apps. The app will be uploaded to QRadar and installed for use."
 
 ## Steps to deploy code on IBM Code Engine 
 
-1. Login to ibm cloud from your terminal
+Step1: Login to ibm cloud from your terminal
 
-Select the target group 
-2. ibmcloud target -g `${target_group_name}`
+Step2: Select the target group 
+1. ibmcloud target -g `${target_group_name}`
 
-Select the project created where you want to deploy the function 
-3. ibmcloud ce project select -n `${project_name}`
+Step3: Select the project created where you want to deploy the function 
+1. ibmcloud ce project select -n `${project_name}`
 
-Deploy the code-engine plugin in the terminal with the following command 
-4. ibmcloud plugin install code-engine
+Step4: Deploy the code-engine plugin in the terminal with the following command 
+1. ibmcloud plugin install code-engine
 
-To create the nodejs function in code engine
-5. ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
+Step5: To create the nodejs function in code engine
+1. ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
 
-To update the same function
-6. ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
+Step6: To update the same function
+1. ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
 
 
 ## Adding Environment Variables in IBM Code Engine
