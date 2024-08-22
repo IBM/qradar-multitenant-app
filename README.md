@@ -51,7 +51,8 @@ This repo contains two main folder.
 ![img](./static/9.png) 
 
     15. Repeat steps 1 through 12 for the second custom extension.
-    16. Under Step 12 for the second extension’s Authentication settings, choose "API Key Auth" and enter the token generated from the Authorized Service in the QRadar Console.
+    16. Under Step 12 for the second extension’s Authentication settings, choose "API Key Auth" 
+    and enter the token generated from the Authorized Service in the QRadar Console.
 
 ![img](./static/10.png) 
 
