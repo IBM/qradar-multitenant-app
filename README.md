@@ -93,7 +93,7 @@ Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console 
 1. Login to ibm cloud from your terminal
 
 2. Select the target group 
-    a. ibmcloud target -g `${target_group_name}`
+a. ibmcloud target -g `${target_group_name}`
 
 3. Select the project created where you want to deploy the function 
     a. ibmcloud ce project select -n `${project_name}`
