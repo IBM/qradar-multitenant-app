@@ -1079,7 +1079,7 @@
                     },
                     {
                       "value": {
-                        "scalar": "150.239.57.231:8300"
+                        "scalar": [process.env.API_IP]
                       },
                       "parameter": "initiated_from"
                     },

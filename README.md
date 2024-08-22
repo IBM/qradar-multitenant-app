@@ -88,3 +88,66 @@ Step 3: Deploy the App to QRadar
 
 Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console and <QRadar_user> with the username of a user with the necessary permissions to deploy apps. The app will be uploaded to QRadar and installed for use."
 
+## Steps to deploy code on IBM Code Engine 
+
+1. Login to ibm cloud from your terminal
+
+2. Select the target group 
+    ibmcloud target -g `${target_group_name}`
+
+3. Select the project created where you want to deploy the function 
+    ibmcloud ce project select -n `${project_name}`
+
+4. Deploy the code-engine plugin in the terminal with the following command 
+    ibmcloud plugin install code-engine
+
+5. To create the nodejs function in code engine
+    ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
+
+    To update the function
+    ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
+
+
+## Adding Environment Variables in IBM Code Engine
+
+1.  Log in to IBM Cloud and access IBM Code Engine by clicking on the hamburger menu on the top left corner.
+
+![img](./static/C1.png)
+
+2.  In the left pane, click on the "Projects" option.
+
+![img](./static/C2.png)
+
+3.	Select your project from the list.
+4.	Navigate to "Secrets and Configmaps."
+5.	Click "Create" and choose "Configmap."
+
+![img](./static/C3.png)
+
+6.	Click "Next."
+
+![img](./static/C4.png)
+
+7.	Provide a Configmap name and click "Add key-value pair."
+8.	Create two key-value pairs: one for API_IP and another for SEC_TOKEN.
+9.	Click Create
+
+![img](./static/C5.png)
+
+## Mapping Credentials to Your Function
+
+1.	In the left pane, click on the "Function" section.
+2.	Access the function you created.
+
+![img](./static/C6.png)
+
+3.	Go to the "Environment Variables" tab.
+4.	Click "Add Environment Variables."	
+
+![img](./static/C7.png)
+
+5.	To map the entire Configmap, select "Reference to full Configmap."
+6.	To map only a specific key, choose "Reference to key in Secret."
+7.	Click "Add."
+
+![img](./static/C8.png)

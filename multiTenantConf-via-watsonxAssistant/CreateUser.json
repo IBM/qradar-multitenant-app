@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://150.239.57.231:8300",
+      "url": [process.env.API_IP],
       "description": "API server"
     }
   ],
