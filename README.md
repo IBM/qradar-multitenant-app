@@ -77,7 +77,7 @@ how to install QRadar SDK https://www.ibm.com/support/pages/qradar-whats-new-app
 
 ## To install the app on QRadar using the SDK, follow these simple steps:
 
-Step 1: Identify Default Server and User Values (Optional)
+1. Identify Default Server and User Values (Optional)
     a. qapp server -q <QRadar_server> -u <QRadar_user>
 
 Step 2: Package the App
