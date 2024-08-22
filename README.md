@@ -80,11 +80,11 @@ how to install QRadar SDK https://www.ibm.com/support/pages/qradar-whats-new-app
 Identify Default Server and User Values (Optional)
 1. qapp server -q <QRadar_server> -u <QRadar_user>
 
-Step 2: Package the App
-    a. qapp package -p com.mycompany.myapp.zip
+Package the App
+2. qapp package -p com.mycompany.myapp.zip
 
-Step 3: Deploy the App to QRadar
-    a. qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
+Deploy the App to QRadar
+3. qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
 
 Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console and <QRadar_user> with the username of a user with the necessary permissions to deploy apps. The app will be uploaded to QRadar and installed for use."
 
@@ -92,20 +92,20 @@ Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console 
 
 1. Login to ibm cloud from your terminal
 
-2. Select the target group 
-a. ibmcloud target -g `${target_group_name}`
+Select the target group 
+2. ibmcloud target -g `${target_group_name}`
 
-3. Select the project created where you want to deploy the function 
-    a. ibmcloud ce project select -n `${project_name}`
+Select the project created where you want to deploy the function 
+3. ibmcloud ce project select -n `${project_name}`
 
-4. Deploy the code-engine plugin in the terminal with the following command 
-    a. ibmcloud plugin install code-engine
+Deploy the code-engine plugin in the terminal with the following command 
+4. ibmcloud plugin install code-engine
 
-5. To create the nodejs function in code engine
-    a. ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
+To create the nodejs function in code engine
+5. ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
 
-    To update the function
-    a. ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
+To update the same function
+6. ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
 
 
 ## Adding Environment Variables in IBM Code Engine
