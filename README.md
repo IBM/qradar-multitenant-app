@@ -78,13 +78,13 @@ how to install QRadar SDK https://www.ibm.com/support/pages/qradar-whats-new-app
 ## To install the app on QRadar using the SDK, follow these simple steps:
 
 Step 1: Identify Default Server and User Values (Optional)
-    qapp server -q <QRadar_server> -u <QRadar_user>
+    a. qapp server -q <QRadar_server> -u <QRadar_user>
 
 Step 2: Package the App
-    qapp package -p com.mycompany.myapp.zip
+    a. qapp package -p com.mycompany.myapp.zip
 
 Step 3: Deploy the App to QRadar
-    qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
+    a. qapp deploy -q <QRadar_server> -u <QRadar_user> -p com.mycompany.myapp.zip
 
 Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console and <QRadar_user> with the username of a user with the necessary permissions to deploy apps. The app will be uploaded to QRadar and installed for use."
 
@@ -93,19 +93,19 @@ Note: “Replace <QRadar_server> with the IP or hostname of your QRadar console 
 1. Login to ibm cloud from your terminal
 
 2. Select the target group 
-    ibmcloud target -g `${target_group_name}`
+    a. ibmcloud target -g `${target_group_name}`
 
 3. Select the project created where you want to deploy the function 
-    ibmcloud ce project select -n `${project_name}`
+    a. ibmcloud ce project select -n `${project_name}`
 
 4. Deploy the code-engine plugin in the terminal with the following command 
-    ibmcloud plugin install code-engine
+    a. ibmcloud plugin install code-engine
 
 5. To create the nodejs function in code engine
-    ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
+    a. ibmcloud ce fn create --name `${function_name}` --runtime nodejs-18 --build-source .
 
     To update the function
-    ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
+    a. ibmcloud ce fn update --name `${function_name}` --runtime nodejs-18 --build-source .
 
 
 ## Adding Environment Variables in IBM Code Engine
