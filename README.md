@@ -152,3 +152,13 @@ Step6: To update the same function
 7.	Click "Add."
 
 ![img](./static/C8.png)
+
+
+## List of Environment Variables in IBM Code Engine
+
+1.	SEC_TOKEN
+2.	API_IP
+3.  HOST
+4.  SSH_USERNAME
+5.  SSH_PASSWORD
+

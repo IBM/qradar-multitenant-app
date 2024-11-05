@@ -4,7 +4,7 @@
   "valid": true,
   "status": "Available",
   "created": "2024-06-05T14:26:44.492Z",
-  "updated": "2024-08-07T09:53:50.668Z",
+  "updated": "2024-11-05T05:35:29.519Z",
   "language": "en",
   "skill_id": "08c76d35-b10c-4f7d-83c4-f884325898c2",
   "workspace": {
@@ -124,7 +124,7 @@
                 "method": "GET",
                 "internal": {
                   "spec_hash_id": "c8bdd8c9402f3cce7a737824e5d031da8250a2abd33c779c0ba82bc793a14ed1",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
                 },
                 "result_variable": "step_369_result_1"
               }
@@ -241,7 +241,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Creating the Tenant and associated Domain in QRadar Instance......"
+                            "scalar": "Creating the Tenant and associated Domain in QRadar Instance."
                           }
                         ]
                       }
@@ -300,7 +300,7 @@
                     }
                   ]
                 },
-                "result_variable": "step_290_result_1"
+                "result_variable": "step_290_result_2"
               }
             },
             "variable": "step_290",
@@ -321,7 +321,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Domain and Tenant created successfully. Please create a security profile and do a deploy changes using UI and continue with this chat"
+                            "scalar": "Domain and Tenant created successfully. Please provide security profile name."
                           }
                         ]
                       }
@@ -330,64 +330,22 @@
                   "response_type": "text",
                   "selection_policy": "sequential",
                   "repeat_on_reprompt": false
-                },
-                {
-                  "options": [
-                    {
-                      "label": "Security Profile Created",
-                      "value": {
-                        "input": {
-                          "text": "Security Profile Created"
-                        }
-                      }
-                    }
-                  ],
-                  "response_type": "option",
-                  "repeat_on_reprompt": true
                 }
               ]
             },
-            "handlers": [
-              {
-                "type": "not_found",
-                "title": "validation_not_found_handler",
-                "output": {
-                  "generic": [
-                    {
-                      "values": [
-                        {
-                          "text_expression": {
-                            "concat": [
-                              {
-                                "scalar": "I didn't catch that. Select a valid option:"
-                              }
-                            ]
-                          }
-                        }
-                      ],
-                      "response_type": "text",
-                      "selection_policy": "incremental"
-                    }
-                  ]
-                },
-                "handler": "validation_not_found_handler",
-                "resolver": {
-                  "type": "prompt_again"
-                },
-                "next_handler": "validation_not_found_max_tries_handler"
-              },
-              {
-                "type": "not_found_max_tries",
-                "title": "validation_not_found_max_tries_handler",
-                "handler": "validation_not_found_max_tries_handler",
-                "resolver": {
-                  "type": "fallback"
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "${step_290_result_2.body.domain.id}"
+                  },
+                  "skill_variable": "Domainid"
                 }
-              }
-            ],
+              ]
+            },
+            "handlers": [],
             "question": {
-              "entity": "entity_30398",
-              "max_tries": 3
+              "free_text": true
             },
             "resolver": {
               "type": "continue"
@@ -396,7 +354,7 @@
             "condition": {
               "eq": [
                 {
-                  "variable": "step_369_result_1",
+                  "variable": "step_290_result_2",
                   "variable_path": "success"
                 },
                 {
@@ -404,10 +362,10 @@
                 }
               ]
             },
-            "next_step": "step_824"
+            "next_step": "step_752"
           },
           {
-            "step": "step_824",
+            "step": "step_752",
             "output": {
               "generic": [
                 {
@@ -416,7 +374,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Fetching Security Profiles"
+                            "scalar": "Creating the Security profile with newly created domain and tenant details."
                           }
                         ]
                       }
@@ -424,59 +382,6 @@
                   ],
                   "response_type": "text",
                   "selection_policy": "sequential"
-                }
-              ]
-            },
-            "handlers": [],
-            "resolver": {
-              "type": "callout",
-              "callout": {
-                "path": "/api/config/access/security_profiles",
-                "type": "integration_interaction",
-                "method": "GET",
-                "internal": {
-                  "spec_hash_id": "4ef287de60e56b8ef5cee98105aa4cdda055691928e5c77502361c9d9591ae4a",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
-                },
-                "result_variable": "step_824_result_1"
-              }
-            },
-            "variable": "step_824",
-            "condition": {
-              "eq": [
-                {
-                  "variable": "step_328"
-                },
-                {
-                  "value": "Security Profile Created",
-                  "from_entity": "entity_30398"
-                }
-              ]
-            },
-            "next_step": "step_608"
-          },
-          {
-            "step": "step_608",
-            "output": {
-              "generic": [
-                {
-                  "values": [
-                    {
-                      "text_expression": {
-                        "concat": [
-                          {
-                            "scalar": "Select the Security Profiles from the List"
-                          }
-                        ]
-                      }
-                    }
-                  ],
-                  "response_type": "text",
-                  "selection_policy": "sequential"
-                },
-                {
-                  "response_type": "response_from_variable",
-                  "repeat_on_reprompt": true
                 }
               ]
             },
@@ -484,67 +389,99 @@
               "variables": [
                 {
                   "value": {
-                    "expression": "${step_824_result_1.body}"
+                    "expression": "input.text"
                   },
-                  "skill_variable": "securityprofilelist"
+                  "skill_variable": "sp_name"
                 }
               ]
             },
-            "handlers": [
-              {
-                "type": "not_found",
-                "title": "validation_not_found_handler",
-                "output": {
-                  "generic": [
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "67d653c0eb96cd024bb4c49dd40072ae6e722ae3f477265c407fbaf6b98115db",
+                  "catalog_item_id": "db3547b8-161f-4099-9fd4-731bb02f5bd0"
+                },
+                "request_mapping": {
+                  "query": [
                     {
-                      "values": [
-                        {
-                          "text_expression": {
-                            "concat": [
-                              {
-                                "scalar": "I didn't catch that. Select a valid option:"
-                              }
-                            ]
-                          }
-                        }
-                      ],
-                      "response_type": "text",
-                      "selection_policy": "incremental"
+                      "value": {
+                        "skill_variable": "sp_name"
+                      },
+                      "parameter": "sp_name"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "selected_logsource_group"
+                      },
+                      "parameter": "log_source_group_id"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "Domainid"
+                      },
+                      "parameter": "domain_id"
                     }
                   ]
                 },
-                "handler": "validation_not_found_handler",
-                "resolver": {
-                  "type": "prompt_again"
-                },
-                "next_handler": "validation_not_found_max_tries_handler"
-              },
-              {
-                "type": "not_found_max_tries",
-                "title": "validation_not_found_max_tries_handler",
-                "handler": "validation_not_found_max_tries_handler",
-                "resolver": {
-                  "type": "fallback"
-                }
-              }
-            ],
-            "question": {
-              "max_tries": 3,
-              "option_list": {
-                "templates": {
-                  "label": {
-                    "expression": "${item.name}"
-                  }
-                }
-              },
-              "source_variable": {
-                "skill_variable": "securityprofilelist"
+                "result_variable": "step_752_result_1"
               }
             },
+            "variable": "step_752",
+            "condition": {
+              "exists": {
+                "variable": "step_328"
+              }
+            },
+            "next_step": "step_378"
+          },
+          {
+            "step": "step_378",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "The deployment is currently in progress. Meanwhile we will start with the user creation process, while continuing to monitor the deployment status in the following steps?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "${step_752_result_1.body.sp_id}"
+                  },
+                  "skill_variable": "new_sp_id"
+                }
+              ]
+            },
+            "handlers": [],
             "resolver": {
               "type": "continue"
             },
-            "variable": "step_608",
+            "variable": "step_378",
+            "condition": {
+              "exists": {
+                "variable": "step_752_result_1",
+                "variable_path": "body.status"
+              }
+            },
             "next_step": "step_420"
           },
           {
@@ -557,7 +494,7 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Fetching User roles"
+                            "scalar": "Fetching User roles."
                           }
                         ]
                       }
@@ -565,6 +502,16 @@
                   ],
                   "response_type": "text",
                   "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "${step_752_result_1.body.sp_id}"
+                  },
+                  "skill_variable": "new_sp_id"
                 }
               ]
             },
@@ -577,7 +524,7 @@
                 "method": "GET",
                 "internal": {
                   "spec_hash_id": "479401bd9083ffde832146cc6b765ebff463826c5b383102bb8aefc66c34dc67",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
                 },
                 "result_variable": "step_420_result_1"
               }
@@ -708,12 +655,17 @@
                 "method": "GET",
                 "internal": {
                   "spec_hash_id": "ec3f39966b61e08554435f7c24bc5baf531f5519dfc1503459523abbc1ad3a84",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
                 },
                 "result_variable": "step_535_result_1"
               }
             },
             "variable": "step_535",
+            "condition": {
+              "exists": {
+                "variable": "step_190"
+              }
+            },
             "next_step": "step_124"
           },
           {
@@ -807,6 +759,86 @@
               "type": "continue"
             },
             "variable": "step_124",
+            "next_step": "step_955"
+          },
+          {
+            "step": "step_955",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "We are fetching the latest deployment status before proceeding further with the security profile selection."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/api/staged_config/deploy_status",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "e13164a546c48d99668fdf27140ed7448f239fefca05bc38609a7c616cd69528",
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
+                },
+                "result_variable": "step_955_result_1"
+              }
+            },
+            "variable": "step_955",
+            "condition": {
+              "exists": {
+                "variable": "step_124"
+              }
+            },
+            "next_step": "step_711"
+          },
+          {
+            "step": "step_711",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Deployment is still in progress. Please proceed with the user creation process."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_711",
+            "condition": {
+              "exists": {
+                "variable": "step_955_result_1",
+                "variable_path": "body.status"
+              }
+            },
             "next_step": "step_333"
           },
           {
@@ -838,6 +870,11 @@
               "type": "continue"
             },
             "variable": "step_333",
+            "condition": {
+              "exists": {
+                "variable": "step_124"
+              }
+            },
             "next_step": "step_127"
           },
           {
@@ -909,6 +946,12 @@
                     "expression": "input.text"
                   },
                   "skill_variable": "emailid"
+                },
+                {
+                  "value": {
+                    "scalar": true
+                  },
+                  "skill_variable": "is_password"
                 }
               ]
             },
@@ -920,6 +963,388 @@
               "type": "continue"
             },
             "variable": "step_270",
+            "next_step": "step_424"
+          },
+          {
+            "step": "step_424",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "We are fetching the latest deployment status before proceeding further with the security profile selection."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "input.text"
+                  },
+                  "skill_variable": "password"
+                }
+              ]
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/api/staged_config/deploy_status",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "e13164a546c48d99668fdf27140ed7448f239fefca05bc38609a7c616cd69528",
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
+                },
+                "result_variable": "step_424_result_1"
+              }
+            },
+            "variable": "step_424",
+            "condition": {
+              "exists": {
+                "variable": "step_270"
+              }
+            },
+            "next_step": "step_446"
+          },
+          {
+            "step": "step_446",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Deployment Completed Successfully.Please cross check the latest status from QRadar [**Admin tab**](https://150.239.57.231:8300/console/qradar/jsp/QRadar.jsp) and select the below option to further proceed with the user creation steps."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Deployment Successful",
+                      "value": {
+                        "input": {
+                          "text": "Deployment Successful"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_49497",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_446",
+            "condition": {
+              "exists": {
+                "variable": "step_424_result_1",
+                "variable_path": "body.status"
+              }
+            },
+            "next_step": "step_505"
+          },
+          {
+            "step": "step_505",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Fetching Security Profiles."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential"
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/api/config/access/security_profiles",
+                "type": "integration_interaction",
+                "method": "GET",
+                "internal": {
+                  "spec_hash_id": "4ef287de60e56b8ef5cee98105aa4cdda055691928e5c77502361c9d9591ae4a",
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
+                },
+                "result_variable": "step_505_result_1"
+              }
+            },
+            "variable": "step_505",
+            "condition": {
+              "exists": {
+                "variable": "step_446"
+              }
+            },
+            "next_step": "step_225"
+          },
+          {
+            "step": "step_225",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Please select a security profile from the list below to assign to the newly created user."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "response_type": "response_from_variable",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": [
+                {
+                  "value": {
+                    "expression": "${step_505_result_1.body}"
+                  },
+                  "skill_variable": "securityprofilelist"
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "max_tries": 3,
+              "option_list": {
+                "templates": {
+                  "label": {
+                    "expression": "${item.name}"
+                  }
+                }
+              },
+              "source_variable": {
+                "skill_variable": "securityprofilelist"
+              }
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_225",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_505_result_1",
+                  "variable_path": "success"
+                },
+                {
+                  "scalar": true
+                }
+              ]
+            },
+            "next_step": "step_768"
+          },
+          {
+            "step": "step_768",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "To proceed with creating a new user, please access the provided [SP link  ](https://150.239.57.231:8300/console/do/config/spmanage)to clear your cache. This ensures that the latest security profile updates are reflected in the interface."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Create User",
+                      "value": {
+                        "input": {
+                          "text": "Create User"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_8908",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_768",
+            "condition": {
+              "exists": {
+                "variable": "step_225"
+              }
+            },
             "next_step": "step_129"
           },
           {
@@ -947,23 +1372,17 @@
               "variables": [
                 {
                   "value": {
-                    "expression": "input.text"
-                  },
-                  "skill_variable": "password"
-                },
-                {
-                  "value": {
-                    "expression": "${Selected_SecurityProfileID}=${step_608}.item.id"
-                  }
-                },
-                {
-                  "value": {
                     "expression": "${selectedrole}=${step_190}.item.id"
                   }
                 },
                 {
                   "value": {
                     "expression": "${selectedtenant}=${step_124}.item.id"
+                  }
+                },
+                {
+                  "value": {
+                    "expression": "${Selected_SecurityProfileID}=${step_225}.item.id"
                   }
                 }
               ]
@@ -977,7 +1396,7 @@
                 "method": "POST",
                 "internal": {
                   "spec_hash_id": "a6a150b7c19f9430bacbd13639cddc3bbd6f48925e74d0ff79e76205b0148b5d",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
                 },
                 "request_mapping": {
                   "body": [
@@ -1023,10 +1442,21 @@
               }
             },
             "variable": "step_129",
-            "next_step": "step_221"
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_768"
+                },
+                {
+                  "value": "Create User",
+                  "from_entity": "entity_8908"
+                }
+              ]
+            },
+            "next_step": "step_965"
           },
           {
-            "step": "step_221",
+            "step": "step_965",
             "output": {
               "generic": [
                 {
@@ -1035,7 +1465,346 @@
                       "text_expression": {
                         "concat": [
                           {
-                            "scalar": "Deploying the changes"
+                            "scalar": "User Created Successfully. Please proceed with final deploy changes by selecting the below option."
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Proceed with the Deploy Changes",
+                      "value": {
+                        "input": {
+                          "text": "Proceed with the Deploy Changes"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "context": {
+              "variables": []
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I didn't catch that. Select a valid option:"
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "entity_23246",
+              "max_tries": 3
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_965",
+            "condition": {
+              "and": [
+                {
+                  "eq": [
+                    {
+                      "variable": "step_129_result_1",
+                      "variable_path": "success"
+                    },
+                    {
+                      "scalar": true
+                    }
+                  ]
+                },
+                {
+                  "expression": "${step_129_result_1.status}==201"
+                }
+              ]
+            },
+            "next_step": "step_417"
+          },
+          {
+            "step": "step_417",
+            "handlers": [],
+            "resolver": {
+              "type": "callout",
+              "callout": {
+                "path": "/api/staged_config/deploy_status",
+                "type": "integration_interaction",
+                "method": "POST",
+                "internal": {
+                  "spec_hash_id": "17777a100f908346809ad0a6efae18d5b615f680a10a0d33483cbf3f3c6d1371",
+                  "catalog_item_id": "8b40474d-ce11-4906-9956-79d7005b8fbc"
+                },
+                "request_mapping": {
+                  "body": [
+                    {
+                      "value": {
+                        "scalar": "INCREMENTAL"
+                      },
+                      "parameter": "type"
+                    },
+                    {
+                      "value": {
+                        "scalar": "IN_PROGRESS"
+                      },
+                      "parameter": "status"
+                    },
+                    {
+                      "value": {
+                        "scalar": "Admin"
+                      },
+                      "parameter": "initiated_by"
+                    },
+                    {
+                      "value": {
+                        "skill_variable": "QRadar_Console_IP"
+                      },
+                      "parameter": "initiated_from"
+                    },
+                    {
+                      "value": {
+                        "scalar": 42
+                      },
+                      "parameter": "percent_complete"
+                    }
+                  ]
+                },
+                "result_variable": "step_417_result_1"
+              }
+            },
+            "variable": "step_417",
+            "condition": {
+              "exists": {
+                "variable": "step_965"
+              }
+            },
+            "next_step": "step_238"
+          },
+          {
+            "step": "step_238",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Your new tenant has been successfully onboarded!!! Please review the configuration on the UI. Would you like to create another tenant now?"
+                          }
+                        ]
+                      }
+                    }
+                  ],
+                  "response_type": "text",
+                  "selection_policy": "sequential",
+                  "repeat_on_reprompt": false
+                },
+                {
+                  "options": [
+                    {
+                      "label": "Yes",
+                      "value": {
+                        "input": {
+                          "text": "Yes"
+                        }
+                      }
+                    },
+                    {
+                      "label": "No",
+                      "value": {
+                        "input": {
+                          "text": "No"
+                        }
+                      }
+                    }
+                  ],
+                  "response_type": "option",
+                  "repeat_on_reprompt": true
+                }
+              ]
+            },
+            "handlers": [
+              {
+                "type": "not_found",
+                "title": "validation_not_found_handler",
+                "output": {
+                  "generic": [
+                    {
+                      "values": [
+                        {
+                          "text_expression": {
+                            "concat": [
+                              {
+                                "scalar": "I'm sorry, I did not catch that, please restate your response."
+                              }
+                            ]
+                          }
+                        }
+                      ],
+                      "response_type": "text",
+                      "selection_policy": "incremental"
+                    }
+                  ]
+                },
+                "handler": "validation_not_found_handler",
+                "resolver": {
+                  "type": "prompt_again"
+                },
+                "next_handler": "validation_not_found_max_tries_handler"
+              },
+              {
+                "type": "not_found_max_tries",
+                "title": "validation_not_found_max_tries_handler",
+                "handler": "validation_not_found_max_tries_handler",
+                "resolver": {
+                  "type": "fallback"
+                }
+              }
+            ],
+            "question": {
+              "entity": "sys-yes-no",
+              "max_tries": 3,
+              "response_collection_behavior": "always_ask"
+            },
+            "resolver": {
+              "type": "continue"
+            },
+            "variable": "step_238",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_417_result_1",
+                  "variable_path": "success"
+                },
+                {
+                  "scalar": true
+                }
+              ]
+            },
+            "next_step": "step_104"
+          },
+          {
+            "step": "step_104",
+            "handlers": [],
+            "resolver": {
+              "type": "replay",
+              "clear": [
+                {
+                  "variable": "step_244"
+                },
+                {
+                  "variable": "step_369"
+                },
+                {
+                  "variable": "step_359"
+                },
+                {
+                  "variable": "step_290"
+                },
+                {
+                  "variable": "step_328"
+                },
+                {
+                  "variable": "step_752"
+                },
+                {
+                  "variable": "step_420"
+                },
+                {
+                  "variable": "step_190"
+                },
+                {
+                  "variable": "step_535"
+                },
+                {
+                  "variable": "step_124"
+                },
+                {
+                  "variable": "step_333"
+                },
+                {
+                  "variable": "step_127"
+                },
+                {
+                  "variable": "step_270"
+                },
+                {
+                  "variable": "step_505"
+                },
+                {
+                  "variable": "step_225"
+                },
+                {
+                  "variable": "step_129"
+                },
+                {
+                  "variable": "step_238"
+                }
+              ]
+            },
+            "variable": "step_104",
+            "condition": {
+              "eq": [
+                {
+                  "variable": "step_238"
+                },
+                {
+                  "scalar": "yes"
+                }
+              ]
+            },
+            "next_step": "step_522"
+          },
+          {
+            "step": "step_522",
+            "output": {
+              "generic": [
+                {
+                  "values": [
+                    {
+                      "text_expression": {
+                        "concat": [
+                          {
+                            "scalar": "Thank you for using the QRadarChatBot to seamlessly onboard new clients. For more information about QRadar SIEM, please refer to the link below.\nhttps://www.ibm.com/docs/en/qsip/7.5"
                           }
                         ]
                       }
@@ -1048,87 +1817,41 @@
             },
             "handlers": [],
             "resolver": {
-              "type": "callout",
-              "callout": {
-                "path": "/api/staged_config/deploy_status",
-                "type": "integration_interaction",
-                "method": "POST",
-                "internal": {
-                  "spec_hash_id": "464b3e8d8f7b90928af50c2ae4d87fb3465e1abcdef3e4763e6a53753dfd4563",
-                  "catalog_item_id": "efc8898d-f0d8-417e-9bf2-2241c2e8f8f3"
-                },
-                "request_mapping": {
-                  "body": [
-                    {
-                      "value": {
-                        "scalar": "INCREMENTAL"
-                      },
-                      "parameter": "type"
-                    },
-                    {
-                      "value": {
-                        "scalar": "COMPLETE"
-                      },
-                      "parameter": "status"
-                    },
-                    {
-                      "value": {
-                        "scalar": "Admin"
-                      },
-                      "parameter": "initiated_by"
-                    },
-                    {
-                      "value": {
-                        "scalar": [process.env.API_IP]
-                      },
-                      "parameter": "initiated_from"
-                    },
-                    {
-                      "value": {
-                        "scalar": 100
-                      },
-                      "parameter": "percent_complete"
-                    }
-                  ]
-                },
-                "result_variable": "step_221_result_1"
-              }
+              "type": "end_action"
             },
-            "variable": "step_221",
+            "variable": "step_522",
             "condition": {
               "eq": [
                 {
-                  "variable": "step_129_result_1",
-                  "variable_path": "success"
+                  "variable": "step_238"
                 },
                 {
-                  "scalar": true
+                  "scalar": "no"
                 }
               ]
             }
           }
         ],
-        "title": "QRadarMTAutomation",
-        "action": "action_25370",
+        "title": "QRadarMTConfiguaration",
+        "action": "action_25370-5",
         "boosts": [],
         "handlers": [],
         "condition": {
-          "intent": "action_25370_intent_48658"
+          "intent": "action_25370_intent_48658-5"
         },
         "variables": [
           {
+            "title": "No response",
+            "variable": "step_104",
+            "data_type": "any"
+          },
+          {
             "title": "Select the tenant id from the list",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_124",
             "data_type": "any"
           },
           {
             "title": "Please provide the email id",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_127",
             "data_type": "any"
           },
@@ -1149,26 +1872,21 @@
           },
           {
             "title": "Select user role from the List",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_190",
             "data_type": "any"
           },
           {
-            "title": "Deploying the changes",
-            "privacy": {
-              "enabled": false
-            },
-            "variable": "step_221",
+            "title": "Please select a security profile from the list below to assign t",
+            "variable": "step_225",
             "data_type": "any"
           },
           {
+            "title": "Your new tenant has been successfully onboarded!!! Please review",
             "privacy": {
               "enabled": false
             },
-            "variable": "step_221_result_1",
-            "data_type": "any"
+            "variable": "step_238",
+            "data_type": "yes_no"
           },
           {
             "title": "Please provide the tenantname:",
@@ -1177,42 +1895,30 @@
           },
           {
             "title": "Please enter the password.",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_270",
             "data_type": "any"
           },
           {
-            "title": "Creating the Tenant and associated Domain in QRadar Instance....",
+            "title": "Creating the Tenant and associated Domain in QRadar Instance.",
             "variable": "step_290",
             "data_type": "any"
           },
           {
-            "variable": "step_290_result_1",
+            "variable": "step_290_result_2",
             "data_type": "any"
           },
           {
-            "title": "Domain and Tenant created successfully. Please create a security",
-            "privacy": {
-              "enabled": false
-            },
+            "title": "Domain and Tenant created successfully. Please provide security ",
             "variable": "step_328",
             "data_type": "any"
           },
           {
             "title": "Please provide the username.",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_333",
             "data_type": "any"
           },
           {
             "title": "Please select the Log source group name from the list which you ",
-            "privacy": {
-              "enabled": false
-            },
             "variable": "step_359",
             "data_type": "any"
           },
@@ -1232,7 +1938,30 @@
             "data_type": "any"
           },
           {
-            "title": "Fetching User roles",
+            "title": "The deployment is currently in progress. Meanwhile we will start",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_378",
+            "data_type": "any"
+          },
+          {
+            "title": "No response",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_417",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_417_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Fetching User roles.",
             "privacy": {
               "enabled": false
             },
@@ -1244,6 +1973,49 @@
               "enabled": false
             },
             "variable": "step_420_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "We are fetching the latest deployment status before proceeding f",
+            "privacy": {
+              "enabled": true
+            },
+            "variable": "step_424",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_424_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Deployment Completed Successfully.Please cross check the latest ",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_446",
+            "data_type": "any"
+          },
+          {
+            "title": "Fetching Security Profiles.",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_505",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_505_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "Thank you for using the QRadarChatBot to seamlessly onboard new ",
+            "variable": "step_522",
             "data_type": "any"
           },
           {
@@ -1262,26 +2034,57 @@
             "data_type": "any"
           },
           {
-            "title": "Select the Security Profiles from the List",
+            "title": "Deployment is still in progress. Please proceed with the user cr",
             "privacy": {
               "enabled": false
             },
-            "variable": "step_608",
+            "variable": "step_711",
             "data_type": "any"
           },
           {
-            "title": "Fetching Security Profiles",
+            "title": "Creating the Security profile with newly created domain and tena",
             "privacy": {
               "enabled": false
             },
-            "variable": "step_824",
+            "variable": "step_752",
             "data_type": "any"
           },
           {
             "privacy": {
               "enabled": false
             },
-            "variable": "step_824_result_1",
+            "variable": "step_752_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "To proceed with creating a new user, please access the provided ",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_768",
+            "data_type": "any"
+          },
+          {
+            "title": "We are fetching the latest deployment status before proceeding f",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_955",
+            "data_type": "any"
+          },
+          {
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_955_result_1",
+            "data_type": "any"
+          },
+          {
+            "title": "User Created Successfully. Please proceed with final deploy chan",
+            "privacy": {
+              "enabled": false
+            },
+            "variable": "step_965",
             "data_type": "any"
           }
         ],
@@ -1813,25 +2616,22 @@
             "data_type": "any"
           }
         ],
-        "next_action": "action_25370",
+        "next_action": "action_25370-5",
         "disambiguation_opt_out": true
       }
     ],
     "intents": [
       {
-        "intent": "action_25370_intent_48658",
+        "intent": "action_25370_intent_48658-5",
         "examples": [
           {
-            "text": "Configure Multi-tenancy"
+            "text": "Configure a New Tenant"
           },
           {
-            "text": "Enable multi-tenant"
+            "text": "Onboard a New Tenant"
           },
           {
-            "text": "QRadar"
-          },
-          {
-            "text": "QRadar Multi-tenant Configuration"
+            "text": "QRadar MT Configuration"
           }
         ]
       },
@@ -1877,11 +2677,44 @@
         "fuzzy_match": true
       },
       {
-        "entity": "entity_30398",
+        "entity": "entity_23246",
         "values": [
           {
             "type": "synonyms",
-            "value": "Security Profile Created",
+            "value": "Proceed with the Deploy Changes",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_30398-3",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Security Profile Created Successfully",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_49497",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Deployment Successful",
+            "synonyms": []
+          }
+        ],
+        "fuzzy_match": true
+      },
+      {
+        "entity": "entity_8908",
+        "values": [
+          {
+            "type": "synonyms",
+            "value": "Create User",
             "synonyms": []
           }
         ],
@@ -1905,6 +2738,15 @@
     },
     "variables": [
       {
+        "title": "Domainid",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "Domainid",
+        "data_type": "any",
+        "description": ""
+      },
+      {
         "title": "domainName",
         "variable": "domainName",
         "data_type": "any",
@@ -1920,8 +2762,26 @@
         "description": ""
       },
       {
+        "title": "is_password",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "is_password",
+        "data_type": "boolean",
+        "description": ""
+      },
+      {
         "title": "logsourcegroup_results",
         "variable": "logsourcegroup_results",
+        "data_type": "any",
+        "description": ""
+      },
+      {
+        "title": "new_sp_id",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "new_sp_id",
         "data_type": "any",
         "description": ""
       },
@@ -1933,6 +2793,18 @@
         "variable": "password",
         "data_type": "any",
         "description": ""
+      },
+      {
+        "title": "QRadar Console IP",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "QRadar_Console_IP",
+        "data_type": "any",
+        "description": "",
+        "initial_value": {
+          "scalar": "150.239.57.231:8300"
+        }
       },
       {
         "title": "qradar-username",
@@ -1959,7 +2831,7 @@
         "description": ""
       },
       {
-        "title": "SelectedRole",
+        "title": "selectedrole",
         "privacy": {
           "enabled": false
         },
@@ -1968,7 +2840,7 @@
         "description": ""
       },
       {
-        "title": "Selected-SecurityProfileID",
+        "title": "selected-securityprofileid",
         "privacy": {
           "enabled": false
         },
@@ -1977,11 +2849,20 @@
         "description": ""
       },
       {
-        "title": "SelectedTenant",
+        "title": "selectedtenant",
         "privacy": {
           "enabled": false
         },
         "variable": "selectedtenant",
+        "data_type": "any",
+        "description": ""
+      },
+      {
+        "title": "sp_name",
+        "privacy": {
+          "enabled": false
+        },
+        "variable": "sp_name",
         "data_type": "any",
         "description": ""
       },
@@ -2023,6 +2904,9 @@
     "collections": [],
     "counterexamples": [],
     "system_settings": {
+      "nlp": {
+        "model": "latest"
+      },
       "variable": {
         "format": {
           "time": {
@@ -2038,6 +2922,22 @@
       },
       "auto_learn": {
         "apply": true
+      },
+      "launch_mode": {
+        "default": "learning",
+        "enabled": false,
+        "learning": {
+          "step_retry_threshold": 2,
+          "use_connect_to_support": "more_often",
+          "single_answer_clarification": "more_often",
+          "disambiguation_clarification": "more_often"
+        },
+        "confident": {
+          "step_retry_threshold": 4,
+          "use_connect_to_support": "sometimes",
+          "single_answer_clarification": "sometimes",
+          "disambiguation_clarification": "sometimes"
+        }
       },
       "topic_switch": {
         "enabled": true,
@@ -2130,7 +3030,7 @@
       "search_routing": {
         "target": "conversational_search"
       },
-      "spelling_auto_correct": true
+      "spelling_auto_correct": false
     },
     "learning_opt_out": false
   },

@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": [process.env.API_IP],
+      "url": "https://150.239.57.231:8300",
       "description": "API server"
     }
   ],
@@ -340,9 +340,36 @@
       }
     },
     "/api/staged_config/deploy_status": {
+      "get": {
+        "summary": "Retrieve the deployment status",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of deployment status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "deployed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Deployment is successful."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Deployment status not found"
+          }
+        }
+      },
       "post": {
-        "summary": "Update Deploy Status",
-        "description": "Update the deployment status with the provided details",
+        "summary": "Update the deployment status",
         "requestBody": {
           "required": true,
           "content": {
@@ -350,44 +377,43 @@
               "schema": {
                 "type": "object",
                 "properties": {
-                  "hosts": {
-                    "type": "array",
-                    "items": {
-                      "type": "string"
-                    },
-                    "description": "List of hosts involved in the deployment"
-                  },
                   "initiated_by": {
                     "type": "string",
-                    "description": "The user who initiated the deployment"
+                    "description": "The user who initiated the deployment."
                   },
                   "initiated_from": {
                     "type": "string",
                     "format": "ipv4",
-                    "description": "IP address from which the deployment was initiated"
+                    "description": "IP address from where deployment was initiated."
                   },
                   "percent_complete": {
                     "type": "integer",
-                    "description": "The percentage of the deployment that is complete"
+                    "description": "The percentage of deployment completed.",
+                    "example": 42
                   },
                   "status": {
                     "type": "string",
-                    "description": "Current status of the deployment",
-                    "enum": ["IN_PROGRESS", "COMPLETE", "FAILED"]
+                    "enum": ["IN_PROGRESS", "COMPLETED", "FAILED"],
+                    "description": "The current status of the deployment."
                   },
                   "type": {
                     "type": "string",
-                    "description": "Type of deployment",
-                    "enum": ["INCREMENTAL", "FULL"]
+                    "enum": ["INCREMENTAL", "FULL"],
+                    "description": "The type of deployment."
                   }
                 },
-                "example": {
-                  "hosts": [],
-                  "initiated_by": "Admin",
-                  "initiated_from": "10.221.192.41",
-                  "percent_complete": 100,
-                  "status": "COMPLETE",
-                  "type": "INCREMENTAL"
+                "required": ["initiated_by", "initiated_from", "percent_complete", "status", "type"]
+              },
+              "examples": {
+                "inProgress": {
+                  "summary": "Deployment in Progress",
+                  "value": {
+                    "initiated_by": "Admin",
+                    "initiated_from": "10.221.192.5",
+                    "percent_complete": 42,
+                    "status": "IN_PROGRESS",
+                    "type": "INCREMENTAL"
+                  }
                 }
               }
             }
@@ -395,127 +421,29 @@
         },
         "responses": {
           "200": {
-            "description": "Status updated successfully",
+            "description": "Successful update of deployment status",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "hosts": {
-                      "type": "array",
-                      "items": {
-                        "type": "string"
-                      },
-                      "description": "List of hosts involved in the deployment"
+                    "success": {
+                      "type": "boolean",
+                      "example": true
                     },
-                    "percent_complete": {
-                      "type": "integer",
-                      "description": "The percentage of the deployment that is complete"
-                    },
-                    "initiated_from": {
+                    "message": {
                       "type": "string",
-                      "format": "ipv4",
-                      "description": "IP address from which the deployment was initiated"
-                    },
-                    "type": {
-                      "type": "string",
-                      "description": "Type of deployment",
-                      "enum": ["INCREMENTAL", "FULL"]
-                    },
-                    "initiated_by": {
-                      "type": "string",
-                      "description": "The user who initiated the deployment"
-                    },
-                    "status": {
-                      "type": "string",
-                      "description": "Current status of the deployment",
-                      "enum": ["IN_PROGRESS", "COMPLETE", "FAILED"]
+                      "example": "Status updated successfully."
                     }
-                  },
-                  "example": {
-                    "hosts": [],
-                    "percent_complete": 0,
-                    "initiated_from": "10.200.232.186",
-                    "type": "INCREMENTAL",
-                    "initiated_by": "Assistant",
-                    "status": "IN_PROGRESS"
                   }
                 }
               }
             }
           },
           "400": {
-            "description": "Bad Request",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "example": {
-                    "error": "Bad Request",
-                    "message": "Invalid request parameters"
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "example": {
-                    "error": "Unauthorized",
-                    "message": "Invalid or missing token"
-                  }
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "error": {
-                      "type": "string"
-                    },
-                    "message": {
-                      "type": "string"
-                    }
-                  },
-                  "example": {
-                    "error": "Internal Server Error",
-                    "message": "An unexpected error occurred"
-                  }
-                }
-              }
-            }
+            "description": "Invalid input provided"
           }
-        },
-        "security": [
-          {
-            "bearerAuth": []
-          }
-        ]
+        }
       }
     },
   "/api/config/access/tenant_management/tenants?filter=deleted=false": {
@@ -1114,3 +1042,4 @@
     }
   }
 }
+

@@ -6,5 +6,7 @@ multiTenantQradarApp/manifest.json
 multiTenantQradarApp/qenv.ini
 
 multiTenantConf-via-watsonxAssistant/mtautomation/node_modules
+multiTenantConf-via-watsonxAssistant/mtautomation-securityprofile/node_modules
+
 
 .DS_Store
