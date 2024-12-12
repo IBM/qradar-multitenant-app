@@ -1,0 +1,14 @@
+multiTenantQradarApp/app
+multiTenantQradarApp/container
+multiTenantQradarApp/store
+multiTenantQradarApp/.qradar_app_uuid
+multiTenantQradarApp/manifest.json
+multiTenantQradarApp/qenv.ini
+
+multiTenantConf-via-watsonxAssistant/mtautomation/node_modules
+multiTenantConf-via-watsonxAssistant/mtautomation/package-lock.json
+multiTenantConf-via-watsonxAssistant/mtautomation-securityprofile/node_modules
+multiTenantConf-via-watsonxAssistant/mtautomation-securityprofile/package-lock.json
+
+
+.DS_Store
