@@ -1,0 +1,1045 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Staged Config API",
+    "description": "API for managing staged configurations",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://150.239.57.231:8300",
+      "description": "API server"
+    }
+  ],
+  "paths": {
+    "/api/staged_config/access/users": {
+      "post": {
+        "summary": "Create User",
+        "description": "Create a new user with the specified details",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "description": "Email address of the user"
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password for the user account"
+                  },
+                  "security_profile_id": {
+                    "type": "integer",
+                    "description": "ID of the security profile"
+                  },
+                  "tenant_id": {
+                    "type": "integer",
+                    "description": "ID of the tenant"
+                  },
+                  "user_role_id": {
+                    "type": "integer",
+                    "description": "ID of the user role"
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username for the user"
+                  }
+                },
+                "example": {
+                  "email": "tenant1_user@example.com",
+                  "password": "Gsilab%123",
+                  "security_profile_id": 18,
+                  "tenant_id": 23,
+                  "user_role_id": 15,
+                  "username": "tenant1_user"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "user_id": {
+                      "type": "integer"
+                    }
+                  },
+                  "example": {
+                    "message": "User created successfully",
+                    "user_id": 12345
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Bad Request",
+                    "message": "Invalid request parameters"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "username already in use as a username on another user or as an authorized service name.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "username already in use as a username on another user or as an authorized service name.",
+                    "message": "The request could not be completed due to a conflict with the current state of the resource"
+                  }
+                }
+              }
+            }
+          }
+        },
+       "security": [
+    {
+      "SEC": []
+    }
+  ]
+      }
+    },
+    "/api/config/access/tenant_management/tenants": {
+      "post": {
+        "summary": "Create or Update Tenant",
+        "description": "Create a new tenant or update an existing tenant.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "deleted": {
+                    "type": "boolean",
+                    "description": "Indicates if the tenant is deleted"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the tenant"
+                  },
+                  "event_rate_limit": {
+                    "type": "integer",
+                    "description": "Event rate limit for the tenant"
+                  },
+                  "flow_rate_limit": {
+                    "type": "integer",
+                    "description": "Flow rate limit for the tenant"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the tenant"
+                  }
+                },
+                "example": {
+                  "deleted": true,
+                  "description": "tenant2",
+                  "event_rate_limit": 500,
+                  "flow_rate_limit": 500,
+                  "name": "tenant2"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Indicates if the operation was successful"
+                    },
+                    "tenantId": {
+                      "type": "string",
+                      "description": "Unique identifier for the tenant"
+                    }
+                  },
+                  "example": {
+                    "success": true,
+                    "tenantId": "tenant123"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Conflict",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "http_response": {
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "integer",
+                          "description": "HTTP response code"
+                        },
+                        "message": {
+                          "type": "string",
+                          "description": "A tenant with the given name already exists."
+                        }
+                      }
+                    },
+                    "code": {
+                      "type": "integer",
+                      "description": "Application-specific error code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Description of the error"
+                    },
+                    "details": {
+                      "type": "object",
+                      "description": "Additional details about the error"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Error message"
+                    }
+                  },
+                  "example": {
+                    "http_response": {
+                      "code": 409,
+                      "message": "The request could not be completed due to a conflict with the current state of the resource"
+                    },
+                    "code": 1004,
+                    "description": "A tenant with the given name already exists.",
+                    "details": {},
+                    "message": "A tenant with the given name already exists."
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "20.0"
+            }
+          }
+        ]
+      }
+    },
+    "/api/staged_config/deploy_status": {
+      "get": {
+        "summary": "Retrieve the deployment status",
+        "responses": {
+          "200": {
+            "description": "Successful retrieval of deployment status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "deployed"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Deployment is successful."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Deployment status not found"
+          }
+        }
+      },
+      "post": {
+        "summary": "Update the deployment status",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "initiated_by": {
+                    "type": "string",
+                    "description": "The user who initiated the deployment."
+                  },
+                  "initiated_from": {
+                    "type": "string",
+                    "format": "ipv4",
+                    "description": "IP address from where deployment was initiated."
+                  },
+                  "percent_complete": {
+                    "type": "integer",
+                    "description": "The percentage of deployment completed.",
+                    "example": 42
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": ["IN_PROGRESS", "COMPLETED", "FAILED"],
+                    "description": "The current status of the deployment."
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": ["INCREMENTAL", "FULL"],
+                    "description": "The type of deployment."
+                  }
+                },
+                "required": ["initiated_by", "initiated_from", "percent_complete", "status", "type"]
+              },
+              "examples": {
+                "inProgress": {
+                  "summary": "Deployment in Progress",
+                  "value": {
+                    "initiated_by": "Admin",
+                    "initiated_from": "10.221.192.5",
+                    "percent_complete": 42,
+                    "status": "IN_PROGRESS",
+                    "type": "INCREMENTAL"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful update of deployment status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "example": true
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Status updated successfully."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input provided"
+          }
+        }
+      }
+    },
+  "/api/config/access/tenant_management/tenants?filter=deleted=false": {
+      "get": {
+        "summary": "Get Tenants",
+        "description": "Retrieve a list of tenants from the tenant management endpoint.",
+        "responses": {
+          "200": {
+            "description": "Successful response with tenant information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "tenantId": {
+                        "type": "string",
+                        "description": "Unique identifier for the tenant"
+                      },
+                      "tenantName": {
+                        "type": "string",
+                        "description": "Name of the tenant"
+                      },
+                      "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the tenant was created"
+                      }
+                    },
+                    "example": {
+                      "tenantId": "12345",
+                      "tenantName": "Example Tenant",
+                      "createdDate": "2024-07-31T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/config/event_sources/log_source_management/log_source_groups": {
+      "get": {
+        "summary": "Get Log Source Groups",
+        "description": "Retrieve a list of log source groups from the log source management endpoint.",
+        "responses": {
+          "200": {
+            "description": "Successful response with log source group information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "groupId": {
+                        "type": "string",
+                        "description": "Unique identifier for the log source group"
+                      },
+                      "groupName": {
+                        "type": "string",
+                        "description": "Name of the log source group"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the log source group"
+                      },
+                      "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the log source group was created"
+                      }
+                    },
+                    "example": {
+                      "groupId": "group123",
+                      "groupName": "Example Log Source Group",
+                      "description": "This is a sample log source group.",
+                      "createdDate": "2024-07-31T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/config/access/user_roles": {
+      "get": {
+        "summary": "Get User Roles",
+        "description": "Retrieve a list of user roles from the user roles endpoint.",
+        "responses": {
+          "200": {
+            "description": "Successful response with user roles information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "roleId": {
+                        "type": "string",
+                        "description": "Unique identifier for the user role"
+                      },
+                      "roleName": {
+                        "type": "string",
+                        "description": "Name of the user role"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the user role"
+                      }
+                    },
+                    "example": {
+                      "roleId": "role123",
+                      "roleName": "Admin",
+                      "description": "Administrator role with full access"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/config/access/security_profiles": {
+      "get": {
+        "summary": "Get Security Profiles",
+        "description": "Retrieve a list of security profiles from the security profiles endpoint.",
+        "responses": {
+          "200": {
+            "description": "Successful response with security profiles information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "profileId": {
+                        "type": "string",
+                        "description": "Unique identifier for the security profile"
+                      },
+                      "profileName": {
+                        "type": "string",
+                        "description": "Name of the security profile"
+                      },
+                      "description": {
+                        "type": "string",
+                        "description": "Description of the security profile"
+                      }
+                    },
+                    "example": {
+                      "profileId": "profile123",
+                      "profileName": "Default Security Profile",
+                      "description": "Default security profile with basic settings"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/api/config/domain_management/domains": {
+      "get": {
+        "summary": "Get Domains",
+        "description": "Retrieve a list of domains from the domain management endpoint.",
+        "responses": {
+          "200": {
+            "description": "Successful response with domain information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "domainId": {
+                        "type": "string",
+                        "description": "Unique identifier for the domain"
+                      },
+                      "domainName": {
+                        "type": "string",
+                        "description": "Name of the domain"
+                      },
+                      "createdDate": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Date and time when the domain was created"
+                      }
+                    },
+                    "example": {
+                      "domainId": "domain123",
+                      "domainName": "example.com",
+                      "createdDate": "2024-07-31T12:00:00Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "An unexpected error occurred"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+     "post": {
+        "summary": "Create or Update Domain",
+        "description": "Create a new domain or update an existing domain.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "log_source_group_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "description": "List of log source group IDs"
+                  },
+                  "deleted": {
+                    "type": "boolean",
+                    "description": "Indicates if the domain is deleted"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "Description of the domain"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the domain"
+                  },
+                  "tenant_id": {
+                    "type": "integer",
+                    "description": "Tenant ID associated with the domain"
+                  }
+                },
+                "example": {
+                  "log_source_group_ids": [10026],
+                  "deleted": true,
+                  "description": "Domain2",
+                  "name": "domain2",
+                  "tenant_id": 4
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": {
+                      "type": "boolean",
+                      "description": "Indicates if the operation was successful"
+                    },
+                    "domainId": {
+                      "type": "string",
+                      "description": "Unique identifier for the domain"
+                    }
+                  },
+                  "example": {
+                    "success": true,
+                    "domainId": "domain123"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "Unauthorized",
+                    "message": "Invalid or missing token"
+                  }
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "The request could not be completed due to a conflict with the current state of the resource",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description":"A domain object parameter already exists."
+                    }
+                  },
+                  "example": {
+                    "error": "Internal Server Error",
+                    "message": "A domain object parameter already exists."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "default": "19.0"
+            }
+          }
+        ]
+      } 
+    }  
+  },
+  "components": {
+    "securitySchemes": {
+      "SEC": {
+        "type": "apiKey",
+        "name": "SEC",
+        "in": "header"
+      }
+    }
+  }
+}
+
